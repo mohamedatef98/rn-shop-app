@@ -4,10 +4,17 @@ import { useSelector } from 'react-redux'
 
 import { ProductItem } from '../../components'
 
-const ProductsOverview = (props) => {
+const ProductsOverview = ({ navigation }) => {
     const products = useSelector(state => state.products.availableProducts)
 
-    return <FlatList data={products} renderItem={({ item }) => <ProductItem product={item} />} keyExtractor={item => item.id} />
+    return <FlatList
+        data={products}
+        renderItem={({ item }) => <ProductItem
+            product={item}
+            onViewDetails={() => navigation.navigate('ProductDetails', { product: item })}
+        />}
+        keyExtractor={item => item.id}
+    />
 }
 
 export default ProductsOverview

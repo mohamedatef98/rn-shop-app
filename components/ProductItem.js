@@ -1,21 +1,23 @@
 import React from 'react'
-import { Text, View, Image, StyleSheet, Button } from 'react-native'
+import { Text, View, Image, StyleSheet, Button, TouchableWithoutFeedback } from 'react-native'
 import { Colors } from '../theme'
 
 const ProductItem = ({ product, onViewDetails, onToCart }) => {
-    return <View style={styles.productContainer}>
-        <View style={styles.imageContainer}>
-            <Image source={{ uri: product.imageUrl }} style={styles.image} />
+    return <TouchableWithoutFeedback onPress={onViewDetails}>
+        <View style={styles.productContainer}>
+            <View style={styles.imageContainer}>
+                <Image source={{ uri: product.imageUrl }} style={styles.image} />
+            </View>
+            <View style={styles.details}>
+                <Text style={styles.title}>{product.title}</Text>
+                <Text style={styles.price}>${product.price.toFixed(2)}</Text>
+            </View>
+            <View style={styles.buttonsContainer}>
+                <Button title='View Details' onPress={onViewDetails} color={Colors.primary} />
+                <Button title='To Cart' onPress={onToCart} color={Colors.primary} />
+            </View>
         </View>
-        <View style={styles.details}>
-            <Text style={styles.title}>{product.title}</Text>
-            <Text style={styles.price}>${product.price.toFixed(2)}</Text>
-        </View>
-        <View style={styles.buttonsContainer}>
-            <Button title='View Details' onPress={onViewDetails} color={Colors.primary} />
-            <Button title='To Cart' onPress={onToCart} color={Colors.primary} />
-        </View>
-    </View>
+    </TouchableWithoutFeedback>
 }
 
 const styles = StyleSheet.create({

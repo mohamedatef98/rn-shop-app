@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import ProductsOverviewScreen from '../screens/shop/ProductsOverview'
 import ProductDetailsScreen from '../screens/shop/ProductDetails' 
 import { Colors, Fonts } from '../theme'
+import { HeaderButton } from '../components'
 
 const Stack = createStackNavigator()
 
@@ -20,7 +21,8 @@ const ShopStack = props => {
             },
             headerBackTitleStyle: {
                 fontFamily: Fonts.primary
-            }
+            },
+            headerRight: ({ tintColor }) => <HeaderButton color={tintColor} size={20} iconName='ios-cart' title='Cart' />
         }}
     >
         <Stack.Screen

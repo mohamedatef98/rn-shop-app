@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 import ProductsOverviewScreen from '../screens/shop/ProductsOverview'
 import ProductDetailsScreen from '../screens/shop/ProductDetails' 
-import { Colors } from '../theme'
+import { Colors, Fonts } from '../theme'
 
 const Stack = createStackNavigator()
 
@@ -14,7 +14,13 @@ const ShopStack = props => {
             headerStyle: {
                 backgroundColor: Platform.OS === 'android' ? Colors.primary : ''
             },
-            headerTintColor: Platform.OS === 'ios' ? Colors.primary : 'white'
+            headerTintColor: Platform.OS === 'ios' ? Colors.primary : 'white',
+            headerTitleStyle: {
+                fontFamily: Fonts.bold
+            },
+            headerBackTitleStyle: {
+                fontFamily: Fonts.primary
+            }
         }}
     >
         <Stack.Screen

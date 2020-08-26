@@ -3,15 +3,17 @@ import { Platform } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
 
 import ProductsOverviewScreen from '../screens/shop/ProductsOverview'
-import ProductDetailsScreen from '../screens/shop/ProductDetails' 
+import ProductDetailsScreen from '../screens/shop/ProductDetails'
+import CartScreen from '../screens/shop/Cart'
 import { Colors, Fonts } from '../theme'
 import { HeaderButton } from '../components'
+import { NavigationContainer } from '@react-navigation/native'
 
 const Stack = createStackNavigator()
 
 const ShopStack = props => {
     return <Stack.Navigator
-        screenOptions={{
+        screenOptions={({ navigation }) => ({
             headerStyle: {
                 backgroundColor: Platform.OS === 'android' ? Colors.primary : ''
             },
@@ -22,8 +24,8 @@ const ShopStack = props => {
             headerBackTitleStyle: {
                 fontFamily: Fonts.primary
             },
-            headerRight: ({ tintColor }) => <HeaderButton color={tintColor} size={20} iconName='ios-cart' title='Cart' />
-        }}
+            headerRight: ({ tintColor }) => <HeaderButton color={tintColor} size={20} iconName='ios-cart' title='Cart' onPress={() => navigation.navigate('Cart')} />
+        })}
     >
         <Stack.Screen
             name='Products'
@@ -36,6 +38,11 @@ const ShopStack = props => {
             options={({ route }) => ({
                 title: route?.params?.product.title || 'Product Details'
             })}
+        />
+        <Stack.Screen
+            name='Cart'
+            component={CartScreen}
+            options={{ title: 'Cart' }}
         />
     </Stack.Navigator>
 }

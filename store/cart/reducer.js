@@ -30,6 +30,7 @@ const cartReducer = (state = initialState, action) => {
                     [product.id]: {
                         ...state.items[product.id],
                         title: product.title,
+                        price: product.price,
                         qty: 1,
                         sum: product.price
                     }

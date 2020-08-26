@@ -1,5 +1,6 @@
 import React from 'react'
-import { Text, View, Image, StyleSheet, Button, TouchableWithoutFeedback } from 'react-native'
+import { View, Image, StyleSheet, Button, TouchableWithoutFeedback } from 'react-native'
+import Text from './Text'
 import { Colors } from '../theme'
 
 const ProductItem = ({ product, onViewDetails, onToCart }) => {
@@ -9,7 +10,7 @@ const ProductItem = ({ product, onViewDetails, onToCart }) => {
                 <Image source={{ uri: product.imageUrl }} style={styles.image} />
             </View>
             <View style={styles.details}>
-                <Text style={styles.title}>{product.title}</Text>
+                <Text style={styles.title} mode='bold'>{product.title}</Text>
                 <Text style={styles.price}>${product.price.toFixed(2)}</Text>
             </View>
             <View style={styles.buttonsContainer}>

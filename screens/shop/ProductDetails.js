@@ -1,5 +1,6 @@
 import React from 'react'
-import { ScrollView, View, Text, Image, StyleSheet, Button } from 'react-native'
+import { ScrollView, View, Image, StyleSheet, Button } from 'react-native'
+import { Text } from '../../components'
 
 const ProductDetails = ({ route, onAddToCart }) => {
     const product = route?.params?.product || {}
@@ -9,7 +10,7 @@ const ProductDetails = ({ route, onAddToCart }) => {
         <View style={styles.buttonContainer}>
             <Button onPress={onAddToCart} title='Add to Cart' />
         </View>
-        <Text style={[styles.title, styles.textCenter]}>{product.title}</Text>
+        <Text style={[styles.title, styles.textCenter]} mode='bold'>{product.title}</Text>
         <Text style={[styles.description, styles.textCenter]}>{product.description}</Text>
     </ScrollView>
 }

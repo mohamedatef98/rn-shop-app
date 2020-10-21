@@ -27,6 +27,7 @@ const Cart = ({ navigation }) => {
             }
             else {
                 dispatch(actions.addOrder(cart))
+                dispatch(actions.clearCart())
                 navigation.navigate('Orders')
             }
         },

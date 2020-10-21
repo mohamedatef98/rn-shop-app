@@ -56,6 +56,8 @@ const cartReducer = (state = initialState, action) => {
                 },
                 totalAmount: state.totalAmount - action.payload.price
             }
+        case ACTION_TYPES.CLEAR_CART:
+            return { ...initialState }
         default:
             return state
     }

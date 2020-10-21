@@ -13,16 +13,13 @@ const loadFonts = () => loadAsync(FontPaths)
 
 export default function App() {
     const [isLoading, setIsLoading] = useState(true)
-    if (isLoading) return <AppLoading
+    return isLoading ? <AppLoading
         startAsync={loadFonts}
         onFinish={() => setIsLoading(false)}
         onError={console.err}
-    />
-    return (
-        <Provider store={store}>
+    /> : <Provider store={store}>
             <NavigationContainer>
                 <ShopStack />
             </NavigationContainer>
         </Provider>
-    )
 }

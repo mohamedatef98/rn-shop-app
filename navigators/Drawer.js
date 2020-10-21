@@ -19,10 +19,10 @@ const DrawerNavigator = () => {
             component={ShopStack}
             name='Shop'
             options={{
-                drawerIcon: ({ tintColor }) => <Ionicons
+                drawerIcon: ({ color, size }) => <Ionicons
                     name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
-                    size={23}
-                    color={tintColor}
+                    size={size}
+                    color={color}
                 />
             }}
         />
@@ -30,10 +30,10 @@ const DrawerNavigator = () => {
             component={OrdersStack}
             name='Orders'
             options={{
-                drawerIcon: ({ tintColor }) => <Ionicons
+                drawerIcon: ({ color, size }) => <Ionicons
                     name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
-                    size={23}
-                    color={tintColor}
+                    size={size}
+                    color={color}
                 />
             }}
         />

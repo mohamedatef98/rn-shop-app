@@ -16,8 +16,8 @@ const options = (navigation) => ({
     },
     headerLeft: ({ tintColor }) => <HeaderButton
         color={tintColor}
-        size={20}
-        iconName='ios-menu'
+        size={30}
+        iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
         onPress={() => navigation.toggleDrawer()}
     />
 })

@@ -1,9 +1,10 @@
 import React from 'react'
 import { View, StyleSheet, Button, FlatList } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { Text, CartItem } from '../../components'
 import { Colors } from '../../theme'
+import { actions } from '../../store'
 
 const Cart = props => {
     const cart = useSelector(state => state.cart)
@@ -13,7 +14,9 @@ const Cart = props => {
         price: product.price,
         qty: product.qty,
         sum: product.sum
-    }))
+    })).sort((a, b) => a.title - b.title)
+    
+    const dispatch = useDispatch()
     console.log(cartItems)
     return <View style={styles.screen}>
         <View style={styles.orderSummary}>
@@ -31,7 +34,7 @@ const Cart = props => {
                     title={item.title}
                     qty={item.qty}
                     sum={item.sum}
-                    onRemove={() => { }}
+                    onRemove={() => dispatch(actions.deleteFromCart(item))}
                 />
             )}
         />

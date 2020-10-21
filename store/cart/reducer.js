@@ -1,4 +1,4 @@
-import { ACTION_TYPES } from './actions'
+import { actions, ACTION_TYPES } from './actions'
 
 const initialState = {
     items: {},
@@ -8,34 +8,53 @@ const initialState = {
 const cartReducer = (state = initialState, action) => {
     switch (action.type) {
         case ACTION_TYPES.ADD_TO_CART:
-            const product = action.payload
-            if (state.items[product.id]) {
+            if (state.items[action.payload.id]) {
                 return {
                     ...state,
                     items: {
                         ...state.items,
-                        [product.id]: {
-                            ...state.items[product.id],
-                            qty: state.items[product.id].qty + 1,
-                            sum: state.items[product.id].sum + product.price
+                        [action.payload.id]: {
+                            ...state.items[action.payload.id],
+                            qty: state.items[action.payload.id].qty + 1,
+                            sum: state.items[action.payload.id].sum + action.payload.price
                         }
                     },
-                    totalAmount: state.totalAmount + product.price
+                    totalAmount: state.totalAmount + action.payload.price
                 }
             }
             else return {
                 ...state,
                 items: {
                     ...state.items,
-                    [product.id]: {
-                        ...state.items[product.id],
-                        title: product.title,
-                        price: product.price,
+                    [action.payload.id]: {
+                        ...state.items[action.payload.id],
+                        title: action.payload.title,
+                        price: action.payload.price,
                         qty: 1,
-                        sum: product.price
+                        sum: action.payload.price
                     }
                 },
-                totalAmount: state.totalAmount + product.price
+                totalAmount: state.totalAmount + action.payload.price
+            }
+        case ACTION_TYPES.DELETE_FROM_CART:
+            const itemQty = state.items[action.payload.id].qty
+            if (itemQty === 1) {
+                const newItems = { ...state.items }
+                delete newItems[action.payload.id]
+                return {
+                    items: newItems,
+                    totalAmount: state.totalAmount - action.payload.price
+                }
+            }
+            else if (itemQty > 1) return {
+                items: {
+                    ...state.items, [action.payload.id]: {
+                        ...state.items[action.payload.id],
+                        qty: state.items[action.payload.id].qty - 1,
+                        sum: state.items[action.payload.id].sum - action.payload.price
+                    }
+                },
+                totalAmount: state.totalAmount - action.payload.price
             }
         default:
             return state

@@ -8,6 +8,7 @@ import OrdersScreen from '../screens/orders/Orders'
 import { HeaderButton } from '../components'
 
 import sharedOptions from './sharedStackOptions'
+import { Platform } from 'react-native'
 
 const Stack = createStackNavigator()
 
@@ -18,7 +19,7 @@ const ShopStack = props => {
             headerRight: ({ tintColor }) => <HeaderButton
                 color={tintColor}
                 size={20}
-                iconName='ios-cart'
+                iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
                 title='Cart'
                 onPress={() => navigation.navigate('Cart')}
             />

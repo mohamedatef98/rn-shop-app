@@ -12,7 +12,7 @@ const CartItem = ({ title, qty, sum, onRemove }) => {
             <Text bold>{title}</Text>
         </View>
         <View style={styles.container}>
-            <Text bold>{sum} </Text>
+            <Text bold>{Math.abs(sum).toFixed(2)} </Text>
             <TouchableOpacity onPress={onRemove} style={styles.delete}>
                 <Ionicons name='ios-trash' color='red' size={23} />
             </TouchableOpacity>

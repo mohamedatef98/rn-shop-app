@@ -21,7 +21,7 @@ const Cart = props => {
     return <View style={styles.screen}>
         <View style={styles.orderSummary}>
             <Text bold style={styles.total}>Total: {' '}
-                <Text style={styles.totalNumber}>${cart.totalAmount.toFixed(2)}</Text>
+                <Text style={styles.totalNumber}>${Math.abs(cart.totalAmount).toFixed(2)}</Text>
 
             </Text>
             <Button title='Order now' color={Colors.accent} />

@@ -1,9 +1,10 @@
 import React from 'react'
 import { View, StyleSheet, Button, Text } from 'react-native'
+import moment from 'moment'
 
 import { Colors, Fonts } from '../theme'
 
-const getFormattedOrderDate = date => date.toDateString()
+const getFormattedOrderDate = date => moment(date).format('MMMM Do YYYY, hh:mm')
 
 export default function OrderItem({ order }) {
     return <View style={styles.orderItem}>

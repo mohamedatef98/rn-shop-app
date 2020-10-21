@@ -18,7 +18,7 @@ const ShopStack = props => {
             ...sharedOptions(navigation),
             headerRight: ({ tintColor }) => <HeaderButton
                 color={tintColor}
-                size={20}
+                size={25}
                 iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
                 title='Cart'
                 onPress={() => navigation.navigate('Cart')}

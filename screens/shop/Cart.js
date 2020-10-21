@@ -1,12 +1,12 @@
-import React from 'react'
-import { View, StyleSheet, Button, FlatList } from 'react-native'
+import React, { useCallback } from 'react'
+import { View, StyleSheet, Button, FlatList, Alert } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Text, CartItem } from '../../components'
 import { Colors } from '../../theme'
 import { actions } from '../../store'
 
-const Cart = props => {
+const Cart = ({ navigation }) => {
     const cart = useSelector(state => state.cart)
     const cartItems = Object.entries(cart.items).map(([id, product]) => ({
         id,
@@ -15,16 +15,31 @@ const Cart = props => {
         qty: product.qty,
         sum: product.sum
     })).sort((a, b) => a.title - b.title)
-    
+
     const dispatch = useDispatch()
-    console.log(cartItems)
+
+    const handleOrderPress = useCallback(
+        () => {
+            if (Object.keys(cart.items).length < 1) {
+                Alert.alert('No Items!', 'Add Items to Cart', [
+                    { text: 'Ok' }
+                ], { cancelable: true })
+            }
+            else {
+                dispatch(actions.addOrder(cart))
+                navigation.navigate('Orders')
+            }
+        },
+        [cart]
+    )
+
     return <View style={styles.screen}>
         <View style={styles.orderSummary}>
             <Text bold style={styles.total}>Total: {' '}
                 <Text style={styles.totalNumber}>${Math.abs(cart.totalAmount).toFixed(2)}</Text>
 
             </Text>
-            <Button title='Order now' color={Colors.accent} />
+            <Button title='Order now' color={Colors.accent} onPress={handleOrderPress} />
         </View>
         <FlatList
             data={cartItems}

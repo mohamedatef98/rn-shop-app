@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import ProductsOverviewScreen from '../screens/shop/ProductsOverview'
 import ProductDetailsScreen from '../screens/shop/ProductDetails'
 import CartScreen from '../screens/shop/Cart'
+import OrdersScreen from '../screens/orders/Orders'
 import { Colors, Fonts } from '../theme'
 import { HeaderButton } from '../components'
 import { NavigationContainer } from '@react-navigation/native'
@@ -43,6 +44,11 @@ const ShopStack = props => {
             name='Cart'
             component={CartScreen}
             options={{ title: 'Cart' }}
+        />
+        <Stack.Screen
+            name='Orders'
+            component={OrdersScreen}
+            options={{ title: 'Orders' }}
         />
     </Stack.Navigator>
 }

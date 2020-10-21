@@ -5,7 +5,7 @@ import { AppLoading } from 'expo'
 import { loadAsync } from 'expo-font'
 
 import { FontPaths } from './theme'
-import ShopStack from './navigators/ShopStack'
+import DrawerNavigator from './navigators/Drawer'
 
 import store from './store'
 
@@ -19,7 +19,7 @@ export default function App() {
         onError={console.err}
     /> : <Provider store={store}>
             <NavigationContainer>
-                <ShopStack />
+                <DrawerNavigator />
             </NavigationContainer>
         </Provider>
 }

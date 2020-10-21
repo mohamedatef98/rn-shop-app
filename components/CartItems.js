@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons'
 import Text from './Text'
 
 
-const CartItem = ({ title, qty, sum, onRemove }) => {
+const CartItem = ({ title, qty, sum, onRemove, deletable }) => {
     return <View style={styles.item}>
         <View style={styles.container}>
             <Text style={styles.qty}>{qty} </Text>
@@ -13,9 +13,9 @@ const CartItem = ({ title, qty, sum, onRemove }) => {
         </View>
         <View style={styles.container}>
             <Text bold>{Math.abs(sum).toFixed(2)} </Text>
-            <TouchableOpacity onPress={onRemove} style={styles.delete}>
+            {deletable && <TouchableOpacity onPress={onRemove} style={styles.delete}>
                 <Ionicons name='ios-trash' color='red' size={30} />
-            </TouchableOpacity>
+            </TouchableOpacity>}
         </View>
     </View>
 }

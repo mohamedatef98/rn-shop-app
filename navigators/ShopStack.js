@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import ProductsOverviewScreen from '../screens/shop/ProductsOverview'
 import ProductDetailsScreen from '../screens/shop/ProductDetails'
 import CartScreen from '../screens/shop/Cart'
-import OrdersScreen from '../screens/orders/Orders'
+import OrdersStack from './OrdersStack'
 import { HeaderButton } from '../components'
 
 import sharedOptions from './sharedStackOptions'
@@ -44,8 +44,7 @@ const ShopStack = props => {
         />
         <Stack.Screen
             name='Orders'
-            component={OrdersScreen}
-            options={{ title: 'Orders' }}
+            component={OrdersStack}
         />
     </Stack.Navigator>
 }

@@ -1,18 +1,27 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import { View, StyleSheet, Button, Text } from 'react-native'
 import moment from 'moment'
 
 import { Colors, Fonts } from '../theme'
+import CartList from './CartList'
 
 const getFormattedOrderDate = date => moment(date).format('MMMM Do YYYY, hh:mm')
 
 export default function OrderItem({ order }) {
+    const [showDetails, setShowDetails] = useState(false)
+
+    const handleOnDetails = useCallback(
+        () => setShowDetails(s => !s),
+        []
+    )
+
     return <View style={styles.orderItem}>
         <View style={styles.summary}>
             <Text style={styles.totalAmount}>${Math.abs(order.totalAmount).toFixed(2)}</Text>
             <Text style={styles.date}>{getFormattedOrderDate(order.date)}</Text>
         </View>
-        <Button color={Colors.primary} title='Show Details' />
+        <Button color={Colors.primary} title={showDetails ? 'Hide Details' : 'Show Details'} onPress={handleOnDetails} />
+        {showDetails && <CartList cartItems={order.items} style={styles.details} />}
     </View>
 }
 
@@ -30,7 +39,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     summary: {
-        width: '100%',
+        alignSelf: 'stretch',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -42,5 +51,8 @@ const styles = StyleSheet.create({
     date: {
         fontFamily: Fonts.primary,
         color: 'grey'
+    },
+    details: {
+        alignSelf: 'stretch'
     }
 })

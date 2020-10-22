@@ -3,7 +3,7 @@ import { FlatList } from 'react-native'
 
 import CartItem from './CartItems'
 
-const CartList = ({ cartItems, onRemove, deletable }) => {
+const CartList = ({ cartItems, onRemove, deletable, style }) => {
     const cartItemsArray = Object.entries(cartItems).map(([id, product]) => ({
         id,
         title: product.title,
@@ -15,6 +15,7 @@ const CartList = ({ cartItems, onRemove, deletable }) => {
     console.log(cartItemsArray)
 
     return <FlatList
+        style={style}
         data={cartItemsArray}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (

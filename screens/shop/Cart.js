@@ -2,20 +2,12 @@ import React, { useCallback } from 'react'
 import { View, StyleSheet, Button, FlatList, Alert } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Text, CartItem } from '../../components'
+import { Text, CartList } from '../../components'
 import { Colors } from '../../theme'
 import { actions } from '../../store'
 
 const Cart = ({ navigation }) => {
     const cart = useSelector(state => state.cart)
-    const cartItems = Object.entries(cart.items).map(([id, product]) => ({
-        id,
-        title: product.title,
-        price: product.price,
-        qty: product.qty,
-        sum: product.sum
-    })).sort((a, b) => a.title - b.title)
-
     const dispatch = useDispatch()
 
     const handleOrderPress = useCallback(
@@ -34,6 +26,10 @@ const Cart = ({ navigation }) => {
         [cart]
     )
 
+    const handleItemRemove = useCallback(
+        (item) => dispatch(actions.deleteFromCart(item))
+    )
+
     return <View style={styles.screen}>
         <View style={styles.orderSummary}>
             <Text bold style={styles.total}>Total: {' '}
@@ -42,18 +38,7 @@ const Cart = ({ navigation }) => {
             </Text>
             <Button title='Order now' color={Colors.accent} onPress={handleOrderPress} />
         </View>
-        <FlatList
-            data={cartItems}
-            keyExtractor={item => item.id}
-            renderItem={({ item }) => (
-                <CartItem
-                    title={item.title}
-                    qty={item.qty}
-                    sum={item.sum}
-                    onRemove={() => dispatch(actions.deleteFromCart(item))}
-                />
-            )}
-        />
+        <CartList cartItems={cart.items} onRemove={handleItemRemove} deletable />
     </View>
 }
 

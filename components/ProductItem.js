@@ -3,8 +3,8 @@ import { View, Image, StyleSheet, Button, TouchableWithoutFeedback } from 'react
 import Text from './Text'
 import { Colors } from '../theme'
 
-const ProductItem = ({ product, onViewDetails, onToCart }) => {
-    return <TouchableWithoutFeedback onPress={onViewDetails}>
+const ProductItem = ({ product, onPress, children }) => {
+    return <TouchableWithoutFeedback onPress={onPress}>
         <View style={styles.productContainer}>
             <View style={styles.imageContainer}>
                 <Image source={{ uri: product.imageUrl }} style={styles.image} />
@@ -14,8 +14,7 @@ const ProductItem = ({ product, onViewDetails, onToCart }) => {
                 <Text style={styles.price}>${product.price.toFixed(2)}</Text>
             </View>
             <View style={styles.buttonsContainer}>
-                <Button title='View Details' onPress={onViewDetails} color={Colors.primary} />
-                <Button title='To Cart' onPress={onToCart} color={Colors.primary} />
+                {children}
             </View>
         </View>
     </TouchableWithoutFeedback>

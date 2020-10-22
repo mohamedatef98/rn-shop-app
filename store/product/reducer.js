@@ -11,8 +11,8 @@ const reducer = (state = initialState, action) => {
         case ACTION_TYPES.DELETE_PRODUCT:
             return {
                 ...state,
-                availableProducts: state.availableProducts.filter(p => p.id === action.payload.id),
-                userProducts: state.userProducts.filter(p => p.id === action.payload.id)
+                availableProducts: state.availableProducts.filter(p => p.id !== action.payload.id),
+                userProducts: state.userProducts.filter(p => p.id !== action.payload.id)
             }
         default:
             return state

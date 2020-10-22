@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons'
 
 import OrdersStack from './OrdersStack'
 import ShopStack from './ShopStack'
+import AdminStack from './AdminStack'
 import { Platform } from 'react-native'
 import { Colors } from '../theme'
 
@@ -32,6 +33,17 @@ const DrawerNavigator = () => {
             options={{
                 drawerIcon: ({ color, size }) => <Ionicons
                     name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+                    size={size}
+                    color={color}
+                />
+            }}
+        />
+        <Drawer.Screen
+            component={AdminStack}
+            name='Admin'
+            options={{
+                drawerIcon: ({ color, size }) => <Ionicons
+                    name={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
                     size={size}
                     color={color}
                 />

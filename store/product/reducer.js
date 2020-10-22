@@ -1,4 +1,5 @@
 import PRODUCTS from '../../data/dummy-data'
+import { ACTION_TYPES } from './actions'
 
 const initialState = {
     availableProducts: PRODUCTS,
@@ -6,7 +7,16 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
-    return state
+    switch (action.type) {
+        case ACTION_TYPES.DELETE_PRODUCT:
+            return {
+                ...state,
+                availableProducts: state.availableProducts.filter(p => p.id === action.payload.id),
+                userProducts: state.userProducts.filter(p => p.id === action.payload.id)
+            }
+        default:
+            return state
+    }
 }
 
 export default reducer

@@ -6,6 +6,7 @@ import ordersReducer from './orders/reducer'
 
 import { actions as cartActions } from './cart/actions'
 import { actions as ordersActions } from './orders/actions'
+import { actions as productActions } from './product/actions'
 
 const rootReducer = combineReducers({
     products: productsReducers,
@@ -19,7 +20,8 @@ export default store
 
 const actions = {
     ...cartActions,
-    ...ordersActions
+    ...ordersActions,
+    ...productActions
 }
 
 export {

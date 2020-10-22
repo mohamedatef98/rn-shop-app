@@ -42,13 +42,15 @@ const cartReducer = (state = initialState, action) => {
                 const newItems = { ...state.items }
                 delete newItems[action.payload.id]
                 return {
+                    ...state,
                     items: newItems,
                     totalAmount: state.totalAmount - action.payload.price
                 }
             }
             else if (itemQty > 1) return {
                 items: {
-                    ...state.items, [action.payload.id]: {
+                    ...state.items,
+                    [action.payload.id]: {
                         ...state.items[action.payload.id],
                         qty: state.items[action.payload.id].qty - 1,
                         sum: state.items[action.payload.id].sum - action.payload.price
@@ -56,6 +58,17 @@ const cartReducer = (state = initialState, action) => {
                 },
                 totalAmount: state.totalAmount - action.payload.price
             }
+        case ACTION_TYPES.REMOVE_PRODUCT_FROM_CART:
+            if (state.items[action.payload.id]) {
+                const newItems = { ...state.items }
+                delete newItems[action.payload.id]
+                return {
+                    ...state,
+                    items: newItems,
+                    totalAmount: state.totalAmount - state.items[action.payload.id].sum
+                }
+            }
+            return state;
         case ACTION_TYPES.CLEAR_CART:
             return { ...initialState }
         default:

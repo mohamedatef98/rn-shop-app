@@ -17,7 +17,7 @@ const actions = {
     }),
     // this one removes the product from the car (zero items of that product)
     removeProductFromCart: product => ({
-        type: REMOVE_PRODUCT_FROM_CART,
+        type: ACTION_TYPES.REMOVE_PRODUCT_FROM_CART,
         payload: product
     }),
     clearCart: () => ({

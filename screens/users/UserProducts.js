@@ -1,12 +1,23 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Button, FlatList } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import ProductItem from '../../components/ProductItem'
 import { Colors } from '../../theme'
+import { actions } from '../../store'
 
 const UserProducts = () => {
     const userProducts = useSelector(state => state.products.userProducts)
+    const dispatch = useDispatch()
+
+    const handleProductDelete = useCallback(
+        (item) => {
+            dispatch(actions.deleteProduct(item))
+            dispatch(actions.removeProductFromCart(item))
+        },
+        []
+    )
+
     return <FlatList
         data={userProducts}
         renderItem={({ item }) => <ProductItem
@@ -20,7 +31,7 @@ const UserProducts = () => {
             />
             <Button
                 title='Delete'
-                onPress={() => { }}
+                onPress={() => handleProductDelete(item)}
                 color={Colors.primary}
             />
         </ProductItem>}

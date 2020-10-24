@@ -1,4 +1,5 @@
 import PRODUCTS from '../../data/dummy-data'
+import { Product } from '../../models'
 import { ACTION_TYPES } from './actions'
 
 const initialState = {
@@ -13,6 +14,15 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 availableProducts: state.availableProducts.filter(p => p.id !== action.payload.id),
                 userProducts: state.userProducts.filter(p => p.id !== action.payload.id)
+            }
+        case ACTION_TYPES.ADD_PRODUCT:
+            const { title, imageUrl, price, description } = action.payload
+            const newProduct = new Product(String(new Date().valueOf()), 'u1', title, imageUrl, description, price)
+            const newAvailableProducts = [...state.availableProducts, newProduct]
+            return {
+                ...state,
+                availableProducts: newAvailableProducts,
+                userProducts: newAvailableProducts.filter(product => product.userId === 'u1')
             }
         default:
             return state

@@ -3,7 +3,7 @@ import { View, StyleSheet, TextInput, Text } from 'react-native'
 
 import { Fonts } from '../theme'
 
-const Input = ({ value, onChange, label, editable = true, style }) => {
+const Input = ({ value, onChange, label, editable = true, style, ...rest }) => {
     return <View style={[styles.inputContainer, style]}>
         <Text style={styles.label}>{label}</Text>
         <TextInput
@@ -11,6 +11,7 @@ const Input = ({ value, onChange, label, editable = true, style }) => {
             value={value}
             onChangeText={onChange}
             editable={editable}
+            {...rest}
         />
     </View>
 }

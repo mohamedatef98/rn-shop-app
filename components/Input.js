@@ -8,7 +8,7 @@ const Input = ({ value, onChange, label, editable = true, style, ...rest }) => {
         <Text style={styles.label}>{label}</Text>
         <TextInput
             style={[styles.input, !editable ? styles.notEditable : {}]}
-            value={value}
+            value={String(value)}
             onChangeText={onChange}
             editable={editable}
             {...rest}

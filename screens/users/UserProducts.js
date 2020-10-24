@@ -6,9 +6,16 @@ import ProductItem from '../../components/ProductItem'
 import { Colors } from '../../theme'
 import { actions } from '../../store'
 
-const UserProducts = () => {
+const UserProducts = ({ navigation }) => {
     const userProducts = useSelector(state => state.products.userProducts)
     const dispatch = useDispatch()
+
+    const handleProductEdit = useCallback(
+        (item) => {
+            navigation.navigate('EditProduct', { product: item })
+        },
+        []
+    )
 
     const handleProductDelete = useCallback(
         (item) => {
@@ -26,7 +33,7 @@ const UserProducts = () => {
         >
             <Button
                 title='Edit'
-                onPress={() => { }}
+                onPress={() => handleProductEdit(item)}
                 color={Colors.primary}
             />
             <Button

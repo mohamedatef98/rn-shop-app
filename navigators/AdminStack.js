@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 import UserProductScreen from '../screens/users/UserProducts'
 import AddProductScreen from '../screens/users/AddProduct'
+import EditProductScreen from '../screens/users/EditProduct'
 import sharedOptions from './sharedStackOptions'
 
 import HeaderButton from '../components/HeaderButton'
@@ -48,6 +49,19 @@ const AdminStack = props => {
                         size={30}
                         iconName={Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'}
                         onPress={onCreateProduct}
+                    />
+                })}
+            />
+            <Stack.Screen
+                name='EditProduct'
+                component={EditProductScreen}
+                options={({ navigation, route }) => ({
+                    title: `Edit ${route.params.product.title || 'Product'}`,
+                    headerRight: ({ tintColor }) => <HeaderButton
+                        color={tintColor}
+                        size={30}
+                        iconName={Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'}
+                        onPress={onEditProduct}
                     />
                 })}
             />

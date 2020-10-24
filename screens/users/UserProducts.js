@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { Button, FlatList } from 'react-native'
+import { Alert, Button, FlatList } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
 import ProductItem from '../../components/ProductItem'
@@ -19,8 +19,19 @@ const UserProducts = ({ navigation }) => {
 
     const handleProductDelete = useCallback(
         (item) => {
-            dispatch(actions.deleteProduct(item))
-            dispatch(actions.removeProductFromCart(item))
+            Alert.alert(
+                'Are you sure?',
+                'Are you sure you want to delete this product?',
+                [
+                    { text: 'No', style: 'cancel' },
+                    {
+                        text: 'Yes', style: 'destructive', onPress: () => {
+                            dispatch(actions.deleteProduct(item))
+                            dispatch(actions.removeProductFromCart(item))
+                        }
+                    }
+                ]
+            )
         },
         []
     )

@@ -21,6 +21,7 @@ const ProductForm = ({ product, onChange, priceEditable = false }) => {
             value={product.price}
             onChange={price => onChange({ ...product, price })}
             editable={priceEditable}
+            keyboardType='numeric'
         />
         <Input
             label='Description'

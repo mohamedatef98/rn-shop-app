@@ -42,7 +42,5 @@ export default function AddProduct({ navigation }) {
         )
     }, [newProduct, navigation])
 
-    return <View>
-        <ProductForm product={newProduct} onChange={setNewProduct} priceEditable errors={formErrors} />
-    </View>
+    return <ProductForm product={newProduct} onChange={setNewProduct} priceEditable errors={formErrors} />
 }

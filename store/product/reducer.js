@@ -3,8 +3,8 @@ import { Product } from '../../models'
 import { ACTION_TYPES } from './actions'
 
 const initialState = {
-    availableProducts: PRODUCTS,
-    userProducts: PRODUCTS.filter(product => product.userId === 'u1')
+    availableProducts: [],
+    userProducts: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -12,11 +12,10 @@ const reducer = (state = initialState, action) => {
         case ACTION_TYPES.GET_PRODUCTS:
             const fetchedProducts = Object.entries(action.payload)
                 .map(([id, { title, price, imageUrl, description }]) => new Product(id, 'u1', title, imageUrl, description, price))
-            const newAvailableProductsFetched = [...state.availableProducts, ...fetchedProducts]
             return {
                 ...state,
-                availableProducts: newAvailableProductsFetched,
-                userProducts: newAvailableProductsFetched.filter(p => p.userId === 'u1')
+                availableProducts: fetchedProducts,
+                userProducts: fetchedProducts.filter(p => p.userId === 'u1')
             }
         case ACTION_TYPES.DELETE_PRODUCT:
             return {

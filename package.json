@@ -26,7 +26,8 @@
     "react-native-web": "~0.11.7",
     "react-navigation-header-buttons": "^5.0.2",
     "react-redux": "^7.2.1",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",

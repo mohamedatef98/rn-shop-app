@@ -9,6 +9,15 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case ACTION_TYPES.GET_PRODUCTS:
+            const fetchedProducts = Object.entries(action.payload)
+                .map(([id, { title, price, imageUrl, description }]) => new Product(id, 'u1', title, imageUrl, description, price))
+            const newAvailableProductsFetched = [...state.availableProducts, ...fetchedProducts]
+            return {
+                ...state,
+                availableProducts: newAvailableProductsFetched,
+                userProducts: newAvailableProductsFetched.filter(p => p.userId === 'u1')
+            }
         case ACTION_TYPES.DELETE_PRODUCT:
             return {
                 ...state,

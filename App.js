@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 import { Provider } from 'react-redux'
-import { NavigationContainer } from '@react-navigation/native'
 import { AppLoading } from 'expo'
 import { loadAsync } from 'expo-font'
 
 import { FontPaths } from './theme'
-import DrawerNavigator from './navigators/Drawer'
-
+import Main from './Main'
 import store from './store'
 
 const loadFonts = () => loadAsync(FontPaths)
@@ -18,8 +16,6 @@ export default function App() {
         onFinish={() => setIsLoading(false)}
         onError={console.err}
     /> : <Provider store={store}>
-            <NavigationContainer>
-                <DrawerNavigator />
-            </NavigationContainer>
+            <Main />
         </Provider>
 }

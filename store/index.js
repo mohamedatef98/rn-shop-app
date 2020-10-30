@@ -1,4 +1,5 @@
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import reduxThunk from 'redux-thunk'
 
 import productsReducers from './product/reducer'
 import cartReducer from './cart/reducer'
@@ -14,7 +15,7 @@ const rootReducer = combineReducers({
     orders: ordersReducer
 })
 
-const store = createStore(rootReducer)
+const store = createStore(rootReducer, applyMiddleware(reduxThunk))
 
 export default store
 

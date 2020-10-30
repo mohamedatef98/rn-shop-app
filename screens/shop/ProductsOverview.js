@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { FlatList, Button, View, ActivityIndicator, StyleSheet, RefreshControl, Text } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
+import { useFocusEffect } from '@react-navigation/native'
 
 import { ProductItem } from '../../components'
 import { actions } from '../../store'
@@ -18,14 +19,7 @@ const ProductsOverview = ({ navigation }) => {
         () => dispatch(actions.getProducts()),
         []
     )
-
-    useEffect(() => {
-        setFetching(true)
-        fetchProducts()
-            .catch(() => setError(true))
-            .finally(() => setFetching(false))
-    }, [])
-
+   
     const handleRefresh = useCallback(
         () => {
             setRefreshing(true)
@@ -36,6 +30,15 @@ const ProductsOverview = ({ navigation }) => {
         },
         []
     )
+
+    useEffect(() => {
+        setFetching(true)
+        fetchProducts()
+            .catch(() => setError(true))
+            .finally(() => setFetching(false))
+    }, [])
+
+    useFocusEffect(handleRefresh)
 
     if (fetching) return <View style={styles.centered}>
         <ActivityIndicator animating size='large' />

@@ -1,3 +1,5 @@
+import { FIREBASE_API } from '../../constants'
+
 const ACTION_TYPES = {
     DELETE_PRODUCT: 'DELETE_PRODUCT',
     ADD_PRODUCT: 'ADD_PRODUCT',
@@ -9,10 +11,22 @@ const actions = {
         type: ACTION_TYPES.DELETE_PRODUCT,
         payload: product
     }),
-    addProduct: product => ({
-        type: ACTION_TYPES.ADD_PRODUCT,
-        payload: product
-    }),
+    addProduct: product => async dispatch => {
+        const response = await fetch(`${FIREBASE_API}/products.json`, {
+            method: 'POST',
+            body: JSON.stringify(product),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+        const id = (await response.json()).name
+
+        dispatch({
+            type: ACTION_TYPES.ADD_PRODUCT,
+            payload: { ...product, id }
+        })
+    },
     editProduct: product => ({
         type: ACTION_TYPES.EDIT_PRODUCT,
         payload: product

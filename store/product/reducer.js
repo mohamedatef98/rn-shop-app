@@ -16,8 +16,8 @@ const reducer = (state = initialState, action) => {
                 userProducts: state.userProducts.filter(p => p.id !== action.payload.id)
             }
         case ACTION_TYPES.ADD_PRODUCT:
-            const { title, imageUrl, price, description } = action.payload
-            const newProduct = new Product(String(new Date().valueOf()), 'u1', title, imageUrl, description, price)
+            const { id, title, imageUrl, price, description } = action.payload
+            const newProduct = new Product(id, 'u1', title, imageUrl, description, price)
             const newAvailableProductsCreated = [...state.availableProducts, newProduct]
             return {
                 ...state,

@@ -26,6 +26,7 @@ export default function EditProduct({ navigation, route }) {
 
                 if (Object.keys(formErrors).length) setFormErrors(formErrors)
                 else {
+                    setFormErrors({})
                     setSaving(true)
                     dispatch(actions.editProduct({
                         id: newProduct.id,

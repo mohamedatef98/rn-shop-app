@@ -1,5 +1,5 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { Alert, View } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
+import { Alert, StyleSheet, View, Text, ActivityIndicator } from 'react-native'
 import { useDispatch } from 'react-redux'
 
 import ProductForm from '../../components/ProductForm'
@@ -10,6 +10,8 @@ export default function EditProduct({ navigation, route }) {
     const [newProduct, setNewProduct] = useState(route.params.product)
     const [formErrors, setFormErrors] = useState({})
     const { setOnEditProduct } = useContext(ProductFormSubmitContext)
+    const [saving, setSaving] = useState(false)
+    const [error, setError] = useState(false)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -24,18 +26,38 @@ export default function EditProduct({ navigation, route }) {
 
                 if (Object.keys(formErrors).length) setFormErrors(formErrors)
                 else {
+                    setSaving(true)
                     dispatch(actions.editProduct({
                         id: newProduct.id,
                         title: newProduct.title,
                         imageUrl: newProduct.imageUrl,
                         description: newProduct.description
                     }))
-                    Alert.alert('Done!', 'Product Edited', [{ text: 'Ok' }])
-                    navigation.navigate('UserProducts')
+                        .catch(e => setError(true))
+                        .then(() => navigation.navigate('UserProducts'))
+                        .finally(() => setSaving(false))
                 }
             }
         )
     }, [newProduct, navigation])
 
+    useEffect(() => {
+        if (error) Alert.alert('Error', 'An Error happened while saving your products', [
+            { text: 'Ok', onPress: () => navigation.navigate('UserProducts') }
+        ])
+    }, [error])
+
+    if (saving) return <View style={styles.centered}>
+        <ActivityIndicator animating size='large' />
+    </View>
+
     return <ProductForm product={newProduct} onChange={setNewProduct} errors={formErrors} />
 }
+
+const styles = StyleSheet.create({
+    centered: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+})

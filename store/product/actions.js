@@ -23,10 +23,16 @@ const actions = {
             payload: data
         })
     },
-    deleteProduct: product => ({
-        type: ACTION_TYPES.DELETE_PRODUCT,
-        payload: product
-    }),
+    deleteProduct: product => async dispatch => {
+        const response = await fetch(`${FIREBASE_API}/products/${product.id}.json`, {
+            method: 'DELETE'
+        })
+        
+        dispatch({
+            type: ACTION_TYPES.DELETE_PRODUCT,
+            payload: product
+        })
+    },
     addProduct: product => async dispatch => {
         const response = await fetch(`${FIREBASE_API}/products.json`, {
             method: 'POST',

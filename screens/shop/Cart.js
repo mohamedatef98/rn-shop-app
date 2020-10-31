@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react'
-import { View, StyleSheet, Button, FlatList, Alert } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
+import { View, StyleSheet, Button, Alert, ActivityIndicator } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Text, CartList } from '../../components'
@@ -8,6 +8,8 @@ import { actions } from '../../store'
 
 const Cart = ({ navigation }) => {
     const cart = useSelector(state => state.cart)
+    const [saving, setSaving] = useState(false)
+    const [error, setError] = useState(false)
     const dispatch = useDispatch()
 
     const handleOrderPress = useCallback(
@@ -18,9 +20,14 @@ const Cart = ({ navigation }) => {
                 ], { cancelable: true })
             }
             else {
+                setSaving(true)
                 dispatch(actions.addOrder(cart))
-                dispatch(actions.clearCart())
-                navigation.navigate('Orders')
+                    .then(() => {
+                        dispatch(actions.clearCart())
+                        navigation.navigate('Orders')
+                    })
+                    .catch(e => setError(true))
+                    .finally(() => setSaving(false))
             }
         },
         [cart]
@@ -30,13 +37,20 @@ const Cart = ({ navigation }) => {
         (item) => dispatch(actions.deleteFromCart(item))
     )
 
+    useEffect(() => {
+        if (error) Alert.alert('Error', 'Error While Saving Your Order', [{ text: 'Okay' }])
+    }, [error])
+
     return <View style={styles.screen}>
         <View style={styles.orderSummary}>
             <Text bold style={styles.total}>Total: {' '}
                 <Text style={styles.totalNumber}>${Math.abs(cart.totalAmount).toFixed(2)}</Text>
 
             </Text>
-            <Button title='Order now' color={Colors.accent} onPress={handleOrderPress} />
+            {saving ?
+                <ActivityIndicator animating size='large' /> :
+                <Button title='Order now' color={Colors.accent} onPress={handleOrderPress} />
+            }
         </View>
         <CartList cartItems={cart.items} onRemove={handleItemRemove} deletable />
     </View>

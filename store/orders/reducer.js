@@ -10,10 +10,10 @@ export default function ordersReducer (state = initialState, action) {
             return {
                 ...state,
                 orders: [...state.orders, {
-                    id: new Date().toString(),
+                    id: action.payload.id,
                     items: action.payload.items,
                     totalAmount: action.payload.totalAmount,
-                    date: new Date()
+                    date: action.payload.date
                 }]
             }
         default:

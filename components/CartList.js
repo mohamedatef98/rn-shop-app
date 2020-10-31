@@ -12,8 +12,6 @@ const CartList = ({ cartItems, onRemove, deletable, style }) => {
         sum: product.sum
     })).sort((a, b) => a.title < b.title ? -1 : 1)
 
-    console.log(cartItemsArray)
-
     return <FlatList
         style={style}
         data={cartItemsArray}

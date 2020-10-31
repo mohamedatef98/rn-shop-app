@@ -28,7 +28,8 @@ export default function EditProduct({ navigation, route }) {
                         id: newProduct.id,
                         title: newProduct.title,
                         imageUrl: newProduct.imageUrl,
-                        description: newProduct.description
+                        description: newProduct.description,
+                        price: newProduct.price
                     }))
                     Alert.alert('Done!', 'Product Edited', [{ text: 'Ok' }])
                     navigation.navigate('UserProducts')
@@ -37,7 +38,5 @@ export default function EditProduct({ navigation, route }) {
         )
     }, [newProduct, navigation])
 
-    return <View>
-        <ProductForm product={newProduct} onChange={setNewProduct} errors={formErrors} />
-    </View>
+    return <ProductForm product={newProduct} onChange={setNewProduct} errors={formErrors} />
 }

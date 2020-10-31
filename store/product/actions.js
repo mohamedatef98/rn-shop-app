@@ -43,10 +43,20 @@ const actions = {
             payload: { ...product, id }
         })
     },
-    editProduct: product => ({
-        type: ACTION_TYPES.EDIT_PRODUCT,
-        payload: product
-    })
+    editProduct: product => async dispatch => {
+        const response = await fetch(`${FIREBASE_API}/products/${product.id}.json`, {
+            method: 'PUT',
+            body: JSON.stringify(product),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        
+        dispatch({
+            type: ACTION_TYPES.EDIT_PRODUCT,
+            payload: product
+        })
+    }
 }
 
 export {

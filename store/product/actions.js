@@ -51,7 +51,7 @@ const actions = {
     },
     editProduct: product => async dispatch => {
         const response = await fetch(`${FIREBASE_API}/products/${product.id}.json`, {
-            method: 'PUT',
+            method: 'PATCH',
             body: JSON.stringify(product),
             headers: {
                 'Content-Type': 'application/json'

@@ -28,8 +28,7 @@ export default function EditProduct({ navigation, route }) {
                         id: newProduct.id,
                         title: newProduct.title,
                         imageUrl: newProduct.imageUrl,
-                        description: newProduct.description,
-                        price: newProduct.price
+                        description: newProduct.description
                     }))
                     Alert.alert('Done!', 'Product Edited', [{ text: 'Ok' }])
                     navigation.navigate('UserProducts')

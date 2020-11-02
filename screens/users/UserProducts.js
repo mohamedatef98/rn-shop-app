@@ -1,5 +1,5 @@
-import React, { useCallback, useState, useEffect } from 'react'
-import { Alert, Button, FlatList, RefreshControl, ActivityIndicator, View, Text, StyleSheet } from 'react-native'
+import React, { useCallback, useState, useMemo } from 'react'
+import { Alert, Button, FlatList, View, Text, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFocusEffect } from '@react-navigation/native'
 
@@ -11,31 +11,18 @@ const UserProducts = ({ navigation }) => {
     const userProducts = useSelector(state => state.products.userProducts)
     const dispatch = useDispatch()
     const [fetching, setFetching] = useState(false)
-    const [refreshing, setRefreshing] = useState(false)
     const [error, setError] = useState(false)
-
-    const fetchProducts = useCallback(
-        () => dispatch(actions.getProducts()),
-        []
-    )
 
     const handleRefresh = useCallback(
         () => {
-            setRefreshing(true)
+            setFetching(true)
             setError(false)
-            fetchProducts()
+            dispatch(actions.getProducts())
                 .catch(() => setError(true))
-                .finally(() => setRefreshing(false))
+                .finally(() => setFetching(false))
         },
         []
     )
-
-    useEffect(() => {
-        setFetching(true)
-        fetchProducts()
-            .catch(() => setError(true))
-            .finally(() => setFetching(false))
-    }, [])
 
     useFocusEffect(handleRefresh)
 
@@ -65,16 +52,17 @@ const UserProducts = ({ navigation }) => {
         []
     )
 
-    if (fetching) return <View style={styles.centered}>
-        <ActivityIndicator animating size='large' />
-    </View>
-
-    if (error) return <View style={styles.centered}>
-        <Text>An Error Occured!</Text>
-        <Button title='Reload?' color={Colors.primary} onPress={handleRefresh} />
-    </View>
+    const errorElement = useMemo(
+        () => <View style={styles.centered}>
+            <Text>An Error Occured!</Text>
+            <Button title='Reload?' color={Colors.primary} onPress={handleRefresh} />
+        </View>,
+        [handleRefresh]
+    )
 
     return <FlatList
+        refreshing={fetching}
+        onRefresh={handleRefresh}
         data={userProducts}
         renderItem={({ item }) => <ProductItem
             product={item}
@@ -91,7 +79,7 @@ const UserProducts = ({ navigation }) => {
                 color={Colors.primary}
             />
         </ProductItem>}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
+        ListEmptyComponent={(!fetching && error) ? errorElement : null}
     />
 }
 

@@ -1,11 +1,12 @@
 import React from 'react'
-import { KeyboardAvoidingView, ScrollView, StyleSheet } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview'
 import Input from './Input'
 
 const ProductForm = ({ product, onChange, errors, priceEditable = false }) => {
 
-    return <KeyboardAvoidingView behavior='padding' style={styles.container}>
-        <ScrollView>
+    return <KeyboardAwareScrollView style={styles.container}>
+        <ScrollView contentContainerStyle={{ flex: 1 }}>
             <Input
                 label='Title'
                 value={product.title}
@@ -33,7 +34,7 @@ const ProductForm = ({ product, onChange, errors, priceEditable = false }) => {
                 error={errors?.description}
             />
         </ScrollView>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
 }
 
 const styles = StyleSheet.create({

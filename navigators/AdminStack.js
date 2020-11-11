@@ -12,14 +12,11 @@ import ProductFormSubmit from '../contexts/ProductFormSubmit'
 const Stack = createStackNavigator()
 
 const AdminStack = props => {
-    const [onCreateProduct, setOnCreateProduct] = useState(() => { })
-    const [onEditProduct, setOnEditProduct] = useState(() => { })
+    const [onProductFormSave, setOnProductFormSave] = useState(() => { })
 
     return <ProductFormSubmit.Provider value={{
-        onCreateProduct,
-        onEditProduct,
-        setOnCreateProduct,
-        setOnEditProduct
+        onProductFormSave,
+        setOnProductFormSave
     }}>
         <Stack.Navigator
             screenOptions={({ navigation }) => ({
@@ -48,7 +45,7 @@ const AdminStack = props => {
                         color={tintColor}
                         size={30}
                         iconName={Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'}
-                        onPress={onCreateProduct}
+                        onPress={onProductFormSave}
                     />
                 })}
             />
@@ -61,7 +58,7 @@ const AdminStack = props => {
                         color={tintColor}
                         size={30}
                         iconName={Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'}
-                        onPress={onEditProduct}
+                        onPress={onProductFormSave}
                     />
                 })}
             />

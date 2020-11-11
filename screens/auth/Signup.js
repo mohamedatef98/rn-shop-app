@@ -8,10 +8,9 @@ import { GradientView, Input, Text } from '../../components'
 import { Colors } from '../../theme'
 import touchError from '../../utils/touchedError'
 
-const validate = ({ name, email, password, confirm_password }) => {
+const validate = ({ email, password, confirm_password }) => {
     const errors = {}
 
-    if(!name.trim()) errors.name = 'Name is Required'
     if(!isEmail(email)) errors.email = 'Invalid Email'
     if(!password.trim()) errors.password = 'Password is required'
     if(password.length < 8) errors.password = 'Password is too Short'
@@ -24,7 +23,6 @@ const Signup = ({ navigation }) => {
     const dispatch = useDispatch()
     const form = useFormik({
         initialValues: {
-            name: '',
             email: '',
             password: '',
             confirm_password: ''
@@ -42,14 +40,6 @@ const Signup = ({ navigation }) => {
         <KeyboardAwareScrollView contentContainerStyle={styles.formContainer}>
             <View style={styles.form}>
             <Text bold style={styles.title}>Signup</Text>
-                <Input
-                    label='Name'
-                    value={form.values.name}
-                    onChange={form.handleChange('name')}
-                    onBlur={form.handleBlur('name')}
-                    error={touchError(form, 'name')}
-                    returnKeyType='next'
-                />
                 <Input
                     label='Email'
                     value={form.values.email}

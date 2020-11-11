@@ -1,14 +1,12 @@
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
+import { useSelector } from 'react-redux'
 
 import DrawerNavigator from './navigators/Drawer'
 import AuthDrawer from './navigators/AuthDrawer'
-import { useSelector } from 'react-redux'
-
-const isSignedIn = false
 
 const Main = () => {
-    const auth = useSelector(s => s.auth)
+    const auth = useSelector(s => s.auth.auth)
     return <NavigationContainer>
         {auth ? <DrawerNavigator /> : <AuthDrawer />}
     </NavigationContainer>

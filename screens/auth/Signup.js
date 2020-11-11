@@ -7,6 +7,7 @@ import isEmail from 'validator/lib/isEmail'
 import { GradientView, Input, Text } from '../../components'
 import { Colors } from '../../theme'
 import touchError from '../../utils/touchedError'
+import { actions } from '../../store'
 
 const validate = ({ email, password, confirm_password }) => {
     const errors = {}
@@ -21,6 +22,18 @@ const validate = ({ email, password, confirm_password }) => {
 
 const Signup = ({ navigation }) => {
     const dispatch = useDispatch()
+    const handleSignup = useCallback(
+        ({ email, password }) => {
+            dispatch(actions.signUp({ email, password }))
+        },
+        [dispatch]
+    )
+
+    const handleLoginPress = useCallback(
+        () => navigation.navigate('Login'),
+        [navigation]
+    )
+
     const form = useFormik({
         initialValues: {
             email: '',
@@ -28,13 +41,8 @@ const Signup = ({ navigation }) => {
             confirm_password: ''
         },
         validate,
-        onSubmit: () => dispatch({type: 'auth'})
+        onSubmit: handleSignup
     })
-
-    const handleLoginPress = useCallback(
-        () => navigation.navigate('Login'),
-        [navigation]
-    )
 
     return <GradientView style={styles.gradient}>
         <KeyboardAwareScrollView contentContainerStyle={styles.formContainer}>

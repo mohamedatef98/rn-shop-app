@@ -12,7 +12,8 @@ import { actions as productActions } from './product/actions'
 const rootReducer = combineReducers({
     products: productsReducers,
     cart: cartReducer,
-    orders: ordersReducer
+    orders: ordersReducer,
+    auth: (state = false, {type}) => type === 'auth' ? true : state
 })
 
 const store = createStore(rootReducer, applyMiddleware(reduxThunk))

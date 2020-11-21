@@ -16,8 +16,10 @@ const actions = {
                 email, password, returnSecureToken: true
             })
         })
-
+        
         const resData = await response.json()
+        
+        if(!response.ok) throw new Error(resData.error.message)
 
         dispatch({
             type: ACTION_TYPES.SIGNUP,
@@ -36,6 +38,8 @@ const actions = {
         })
 
         const resData = await response.json()
+
+        if(!response.ok) throw new Error(resData.error.message)
 
         dispatch({
             type: ACTION_TYPES.SIGNUP,

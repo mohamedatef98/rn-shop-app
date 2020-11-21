@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react'
-import { View, StyleSheet, Button } from 'react-native'
+import React, { useCallback, useState } from 'react'
+import { View, StyleSheet, Button, ActivityIndicator } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview'
 import { useFormik } from 'formik'
 import { useDispatch } from 'react-redux'
@@ -12,15 +12,17 @@ import { actions } from '../../store'
 const validate = ({ email, password }) => {
     const errors = {}
 
-    if(!isEmail(email)) errors.email = 'Invalid Email'
-    if(!password.trim()) errors.password = 'Password is required'
+    if (!isEmail(email)) errors.email = 'Invalid Email'
+    if (!password.trim()) errors.password = 'Password is required'
 
     return errors
 }
 
 const Login = ({ navigation }) => {
     const dispatch = useDispatch()
- 
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(false)
+
     const handleSignupPress = useCallback(
         () => navigation.navigate('Signup'),
         [navigation]
@@ -28,7 +30,13 @@ const Login = ({ navigation }) => {
 
     const handleLogin = useCallback(
         ({ email, password }) => {
+            setLoading(true)
             dispatch(actions.logIn({ email, password }))
+                .catch(e => {
+                    setError((e.message || 'An Error Occured!').replace(/_/g, ' '))
+                    setTimeout(() => setError(''), 2000)
+                    setLoading(false)
+                })
         },
         [dispatch]
     )
@@ -66,7 +74,12 @@ const Login = ({ navigation }) => {
                     returnKeyType='done'
                 />
                 <View style={styles.button}>
-                    <Button title='Login' color={Colors.primary} onPress={form.handleSubmit} />
+                    {loading ?
+                        <ActivityIndicator size='small' animating /> :
+                        error ?
+                            <Text style={styles.error} bold>{error}</Text> :
+                            <Button title='Login' color={Colors.primary} onPress={form.handleSubmit} />
+                    }
                 </View>
                 <View style={styles.button}>
                     <Button title='Signup' color={Colors.accent} onPress={handleSignupPress} />
@@ -108,6 +121,9 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginBottom: 20,
         width: '80%'
+    },
+    error: {
+        textAlign: 'center'
     }
 })
 

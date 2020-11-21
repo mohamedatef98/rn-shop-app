@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react'
-import { View, StyleSheet, Button } from 'react-native'
+import React, { useCallback, useState } from 'react'
+import { View, StyleSheet, Button, ActivityIndicator } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview'
 import { useFormik } from 'formik'
 import { useDispatch } from 'react-redux'
@@ -12,19 +12,27 @@ import { actions } from '../../store'
 const validate = ({ email, password, confirm_password }) => {
     const errors = {}
 
-    if(!isEmail(email)) errors.email = 'Invalid Email'
-    if(!password.trim()) errors.password = 'Password is required'
-    if(password.length < 8) errors.password = 'Password is too Short'
-    if(confirm_password !== password) errors.confirm_password = 'Passwords doesn\'t match'
+    if (!isEmail(email)) errors.email = 'Invalid Email'
+    if (!password.trim()) errors.password = 'Password is required'
+    if (password.length < 8) errors.password = 'Password is too Short'
+    if (confirm_password !== password) errors.confirm_password = 'Passwords doesn\'t match'
 
     return errors
 }
 
 const Signup = ({ navigation }) => {
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
     const dispatch = useDispatch()
     const handleSignup = useCallback(
         ({ email, password }) => {
+            setLoading(true)
             dispatch(actions.signUp({ email, password }))
+                .catch(e => {
+                    setError((e.message || 'An Error Occured!').replace(/_/g, ' '))
+                    setTimeout(() => setError(''), 2000)
+                    setLoading(false)
+                })
         },
         [dispatch]
     )
@@ -47,7 +55,7 @@ const Signup = ({ navigation }) => {
     return <GradientView style={styles.gradient}>
         <KeyboardAwareScrollView contentContainerStyle={styles.formContainer}>
             <View style={styles.form}>
-            <Text bold style={styles.title}>Signup</Text>
+                <Text bold style={styles.title}>Signup</Text>
                 <Input
                     label='Email'
                     value={form.values.email}
@@ -77,7 +85,12 @@ const Signup = ({ navigation }) => {
                     returnKeyType='done'
                 />
                 <View style={styles.button}>
-                    <Button title='Signup' color={Colors.primary} onPress={form.handleSubmit} />
+                    {loading ?
+                        <ActivityIndicator size='small' animating /> :
+                        error ?
+                            <Text style={styles.error} bold>{error}</Text> :
+                            <Button title='Signup' color={Colors.primary} onPress={form.handleSubmit} />
+                    }
                 </View>
                 <View style={styles.button}>
                     <Button title='Login' color={Colors.accent} onPress={handleLoginPress} />
@@ -119,6 +132,9 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginBottom: 20,
         width: '80%'
+    },
+    error: {
+        textAlign: 'center'
     }
 })
 

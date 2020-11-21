@@ -1,16 +1,19 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { Ionicons } from '@expo/vector-icons'
+import { StatusBar, Platform } from 'react-native'
 
 import OrdersStack from './OrdersStack'
 import ShopStack from './ShopStack'
 import AdminStack from './AdminStack'
-import { Platform } from 'react-native'
 import { Colors } from '../theme'
 
 const Drawer = createDrawerNavigator()
 
 const DrawerNavigator = () => {
+    useEffect(() => {
+        Platform.OS == 'android' && StatusBar.setBackgroundColor(Colors.primary)
+    }, [])
     return <Drawer.Navigator
         drawerContentOptions={{
             activeTintColor: Colors.primary

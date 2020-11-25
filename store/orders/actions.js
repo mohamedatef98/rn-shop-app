@@ -15,7 +15,7 @@ const actions = {
             }
         })
 
-        const items = Object.entries(await response.json())
+        const items = Object.entries((await response.json()) || [])
             .map(([id, { date, items, totalAmount }]) => ({ id, date, items, totalAmount }))
             .sort((a, b) => a.date < b.date)
 

@@ -17,7 +17,7 @@ const actions = {
             }
         })
 
-        const products = await response.json()
+        const products = (await response.json()) || []
 
         dispatch({
             type: ACTION_TYPES.GET_PRODUCTS,

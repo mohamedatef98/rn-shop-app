@@ -23,9 +23,10 @@ const actions = {
             payload: items
         })
     },
-    addOrder: ({ items, totalAmount }) => async dispatch => {
+    addOrder: ({ items, totalAmount }) => async (dispatch, getState) => {
+        var token = getState().auth.idToken
         const date = new Date()
-        const response = await fetch(`${FIREBASE_API}/orders/u1.json`, {
+        const response = await fetch(`${FIREBASE_API}/orders/u1.json?auth=${token}`, {
             method: 'POST',
             body: JSON.stringify({ items, totalAmount, date }),
             headers: {

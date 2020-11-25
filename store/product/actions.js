@@ -23,8 +23,9 @@ const actions = {
             payload: data
         })
     },
-    deleteProduct: product => async dispatch => {
-        const response = await fetch(`${FIREBASE_API}/products/${product.id}.json`, {
+    deleteProduct: product => async (dispatch, getState) => {
+        var token = getState().auth.idToken
+        const response = await fetch(`${FIREBASE_API}/products/${product.id}.json?auth=${token}`, {
             method: 'DELETE'
         })
         
@@ -33,8 +34,9 @@ const actions = {
             payload: product
         })
     },
-    addProduct: product => async dispatch => {
-        const response = await fetch(`${FIREBASE_API}/products.json`, {
+    addProduct: product => async (dispatch, getState) => {
+        var token = getState().auth.idToken
+        const response = await fetch(`${FIREBASE_API}/products.json?auth=${token}`, {
             method: 'POST',
             body: JSON.stringify(product),
             headers: {
@@ -49,8 +51,9 @@ const actions = {
             payload: { ...product, id }
         })
     },
-    editProduct: product => async dispatch => {
-        const response = await fetch(`${FIREBASE_API}/products/${product.id}.json`, {
+    editProduct: product => async (dispatch, getState) => {
+        var token = getState().auth.idToken
+        const response = await fetch(`${FIREBASE_API}/products/${product.id}.json?auth=${token}`, {
             method: 'PATCH',
             body: JSON.stringify(product),
             headers: {

@@ -60,6 +60,13 @@ const UserProducts = ({ navigation }) => {
         [handleRefresh]
     )
 
+    const emptyElement = useMemo(
+        () => <View style={styles.centered}>
+            <Text>You don't have any products</Text>
+        </View>,
+        []
+    )
+
     return <FlatList
         refreshing={fetching}
         onRefresh={handleRefresh}
@@ -79,7 +86,7 @@ const UserProducts = ({ navigation }) => {
                 color={Colors.primary}
             />
         </ProductItem>}
-        ListEmptyComponent={(!fetching && error) ? errorElement : null}
+        ListEmptyComponent={(!fetching && error) ? errorElement : emptyElement}
     />
 }
 

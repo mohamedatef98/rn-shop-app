@@ -46,7 +46,7 @@ export default function Orders() {
         data={orders}
         renderItem={({ item }) => <OrderItem order={item} />}
         onRefresh={handleRefresh}
-        ListEmptyComponent={fetching ? null : (error ? errorElement : noItemsElement)}
+        ListEmptyComponent={(!fetching && error) ? errorElement : noItemsElement}
     />
 }
 

@@ -6,8 +6,9 @@ const ACTION_TYPES = {
 }
 
 const actions = {
-    getOrders: () => async dispatch => {
-        const response = await fetch(`${FIREBASE_API}/orders/u1.json`, {
+    getOrders: () => async (dispatch, getState) => {
+        var { localId: userId } = getState().auth
+        const response = await fetch(`${FIREBASE_API}/orders/${userId}.json`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -24,9 +25,9 @@ const actions = {
         })
     },
     addOrder: ({ items, totalAmount }) => async (dispatch, getState) => {
-        var token = getState().auth.idToken
+        var { idToken: token, localId: userId } = getState().auth
         const date = new Date()
-        const response = await fetch(`${FIREBASE_API}/orders/u1.json?auth=${token}`, {
+        const response = await fetch(`${FIREBASE_API}/orders/${userId}.json?auth=${token}`, {
             method: 'POST',
             body: JSON.stringify({ items, totalAmount, date }),
             headers: {

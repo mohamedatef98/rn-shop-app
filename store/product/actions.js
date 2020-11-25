@@ -8,7 +8,8 @@ const ACTION_TYPES = {
 }
 
 const actions = {
-    getProducts: () => async dispatch => {
+    getProducts: () => async (dispatch, getState) => {
+        const userId = getState().auth.localId
         const response = await fetch(`${FIREBASE_API}/products.json`, {
             method: 'GET',
             headers: {
@@ -16,11 +17,11 @@ const actions = {
             }
         })
 
-        const data = await response.json()
+        const products = await response.json()
 
         dispatch({
             type: ACTION_TYPES.GET_PRODUCTS,
-            payload: data
+            payload: { products, userId }
         })
     },
     deleteProduct: product => async (dispatch, getState) => {
@@ -35,10 +36,10 @@ const actions = {
         })
     },
     addProduct: product => async (dispatch, getState) => {
-        var token = getState().auth.idToken
+        var {idToken: token, localId: userId} = getState().auth
         const response = await fetch(`${FIREBASE_API}/products.json?auth=${token}`, {
             method: 'POST',
-            body: JSON.stringify(product),
+            body: JSON.stringify({ ...product, userId }),
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -48,7 +49,7 @@ const actions = {
 
         dispatch({
             type: ACTION_TYPES.ADD_PRODUCT,
-            payload: { ...product, id }
+            payload: { ...product, id, userId }
         })
     },
     editProduct: product => async (dispatch, getState) => {
